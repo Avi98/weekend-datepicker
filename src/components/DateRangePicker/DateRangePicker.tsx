@@ -1,6 +1,8 @@
 import { useState } from "react";
-import PopperTriggerProvider from "../Popper/PopperTrigger";
 import DateInput from "../DateInput";
+import Dropdown from "../Dropdown";
+import PopperTriggerProvider from "../Popper";
+import { DateRangeHeader } from "./DateRangeHeader/DateRangeHeader";
 
 interface IWeekdayDatePicker {
   formate?: string;
@@ -8,9 +10,9 @@ interface IWeekdayDatePicker {
   inputSeparator?: string;
 }
 export const DateRangePicker = ({
-  formate,
+  formate = "dd-mm-yyyy",
   placeholder,
-  inputSeparator,
+  inputSeparator = `~`,
 }: IWeekdayDatePicker) => {
   //   const [startDate, setStartDate] = React.useState(null);
   //   const [endDate, setStartDate] = React.useState(null);
@@ -38,17 +40,27 @@ export const DateRangePicker = ({
 
   // Function to render the calendar interface
   const renderCalendar = () => {
-    // Logic to generate the calendar UI
-    return <div>hi</div>;
+    return (
+      <Dropdown>
+        <DateRangeHeader
+          formate={formate}
+          separator={inputSeparator}
+          dates={[startDate, endDate]}
+        />
+        <Calendar />
+        {/* OK button */}
+      </Dropdown>
+    );
   };
 
   return (
     <PopperTriggerProvider calendarPopup={renderCalendar}>
       <DateInput
         value={""}
-        onChange={handleDateSelect}
-        placeholder={placeholder}
         formate={formate}
+        onChange={handleDateSelect}
+        separator={inputSeparator}
+        placeholder={placeholder}
       />
     </PopperTriggerProvider>
   );

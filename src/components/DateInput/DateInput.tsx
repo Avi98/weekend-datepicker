@@ -1,4 +1,4 @@
-import { ChangeEventHandler, forwardRef } from "react";
+import { ChangeEventHandler, ReactNode, forwardRef } from "react";
 //@Todo remove dependency use svg icon only
 import { CalendarDays } from "lucide-react";
 import Input from "../Input";
@@ -15,25 +15,34 @@ interface IDateInput {
   placeholder?: string;
   value: string;
   formate?: string;
+  calendarIcon?: ReactNode;
 }
 
 export const DateInput = forwardRef<HTMLInputElement, IDateInput>(
   (
-    { onChange, value, separator = "-", formate = "dd-mm-yyyy", placeholder },
+    {
+      onChange,
+      value,
+      separator = "-",
+      formate = "dd-mm-yyyy",
+      placeholder,
+      calendarIcon,
+    },
     ref
   ) => {
     const defaultPlaceholder = `${formate} ${separator} ${formate}`;
 
     const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-      console.log(event);
-      onChange;
+      // @TODO
+      onChange({ dates: [""], weekends: [""] });
     };
 
     return (
       <Input
+        ref={ref}
+        value={value}
         handleChange={handleInputChange}
-        placeholder=""
-        value=""
+        placeholder={placeholder || defaultPlaceholder}
         rightIcon={<CalendarDays height={20} width={20} />}
       />
     );

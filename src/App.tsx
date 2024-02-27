@@ -11,7 +11,11 @@ function App() {
         </a>
         <h3>React date-picker</h3>
       </div>
-      <DateRangePicker />
+      <DateRangePicker
+        inputSeparator="~"
+        formate="dd-mm-yyyy"
+        // placeholder="Weekend DatePicker"
+      />
     </>
   );
 }

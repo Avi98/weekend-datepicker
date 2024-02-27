@@ -1,3 +1,3 @@
-import { DateRangePicker } from "./WeekdayDatePicker";
+import { DateRangePicker } from "./DateRangePicker";
 
 export default DateRangePicker;

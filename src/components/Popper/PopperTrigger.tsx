@@ -1,8 +1,10 @@
 import {
   ElementType,
   ReactElement,
-  ReactNode,
+  cloneElement,
   createContext,
+  isValidElement,
+  useCallback,
   useRef,
   useState,
 } from "react";
@@ -11,7 +13,7 @@ import { Popper } from "./Popper";
 export const PopperTriggerContext = createContext({});
 
 interface IPopperTrigger {
-  children: ReactNode;
+  children: ReactElement<HTMLDivElement>;
   calendarPopup: () => ReactElement;
   container?: ElementType;
 }
@@ -24,16 +26,25 @@ export const PopperTriggerProvider = (props: IPopperTrigger) => {
   const containerRef = useRef(null);
   const triggerRef = useRef(null);
 
+  const { children } = props;
+
+  const trigger =
+    children &&
+    isValidElement(children) &&
+    cloneElement<ReactElement<HTMLDivElement>>(children, {});
+
+  const toggle = useCallback(() => {
+    setShow((state) => !state);
+  }, []);
+
   return (
     <PopperTriggerContext.Provider value={{}}>
       <Wrapper ref={containerRef}>
-        <div ref={triggerRef} onClick={() => setShow((state) => !state)}>
-          {props.children}
+        <div ref={triggerRef} onClick={toggle}>
+          {trigger}
         </div>
         <Popper
-          onHide={() => {
-            setShow((state) => !state);
-          }}
+          onHide={toggle}
           show={show}
           target={triggerRef.current}
           calendarPopup={calendarPopup}

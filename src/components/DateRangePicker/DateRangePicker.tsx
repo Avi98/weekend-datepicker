@@ -47,7 +47,7 @@ export const DateRangePicker = ({
           separator={inputSeparator}
           dates={[startDate, endDate]}
         />
-        <Calendar />
+        {/* <Calendar /> */}
         {/* OK button */}
       </Dropdown>
     );
